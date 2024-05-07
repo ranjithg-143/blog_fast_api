@@ -1,0 +1,4 @@
+__pycache__
+.env
+api_env
+test_db.db
