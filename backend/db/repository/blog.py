@@ -23,8 +23,8 @@ def update_blog(id: int, blog: BlogUpdate, author_id: int, db: Session):
 
 
 def delete_blog(id: int, author_id: int, db: Session):
-    blog = db.query(Blog).filter(Blog.id == id).first()
-    if not blog:
+    blog = db.query(Blog).filter(Blog.id == id)
+    if not blog.first():
         return {"error": f"Could not find blog with id {id}"}
     blog.delete()
     db.commit()

@@ -1,22 +1,27 @@
 from typing import List
 
+from db.repository.blog import (
+    create_blog,
+    delete_blog,
+    list_blogs,
+    update_blog,
+    view_blog,
+)
+from db.session import get_db
 from fastapi import APIRouter, Depends, HTTPException, status
 from schemas.blog import BlogCreate, BlogUpdate, BlogView
 from sqlalchemy.orm import Session
 
-from db.session import get_db
-from db.repository.blog import create_blog, update_blog, delete_blog, list_blogs, view_blog
-
 router = APIRouter()
 
 
-@router.post('/blogs', response_model=BlogView, status_code=status.HTTP_201_CREATED)
+@router.post("/blogs", response_model=BlogView, status_code=status.HTTP_201_CREATED)
 def create_new_blog(blog: BlogCreate, db: Session = Depends(get_db)):
     blog = create_blog(blog=blog, db=db, author_id=1)
     return blog
 
 
-@router.put('/blog/{id}', response_model=BlogView)
+@router.put("/blog/{id}", response_model=BlogView)
 def modify_blog(id: int, blog: BlogUpdate, db: Session = Depends(get_db)):
     blog = update_blog(id=id, blog=blog, author_id=1, db=db)
     if not blog:
